@@ -14,10 +14,13 @@
             var game = new Game(5, {x: 1});
             game.init();
             game.run();
+            $('#stop-game').click(function(){
+                game.stopGame();
+            });
         });
     </script>
 </head>
 <body>
-
+<button id="stop-game">Stop Game</button>
 </body>
 </html>

@@ -104,4 +104,3 @@ Head.prototype.drawHead = function(){
     $('#'+this._position.x+'-'+this._position.y).append(player);
 };
 
-window.Head = Head;
