@@ -27,6 +27,16 @@ Head.prototype.init = function(){
 
 };
 
+Head.prototype.x = function(x){
+    if(x != undefined) this._position.x = x;
+    else return this._position.x;
+};
+
+Head.prototype.y = function(y){
+    if(y != undefined) this._position.y = y;
+    else return this._position.y;
+};
+
 Head.prototype.direction = function(direction){
     if(direction != undefined)
         this._direction = direction;

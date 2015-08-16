@@ -19,3 +19,11 @@ td{
     border-radius: 10px;
     margin: auto;
 }
+
+.cookie{
+    background-color: darkorange;
+    width: 10px;
+    height: 10px;
+    border-radius: 50px;
+    margin: auto;
+}

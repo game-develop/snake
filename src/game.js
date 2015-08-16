@@ -1,8 +1,10 @@
 var FIELD_WIDTH = 20;
 var FIELD_HEIGHT = 18;
-var Game = function(fps, position){
+var Game = function(fps){
     this._fps = fps;
     this._head = new Head(parseInt(FIELD_HEIGHT/2), parseInt(FIELD_WIDTH/2));
+    this._gameRun = true;
+    this.addCookie();
 };
 
 Game.prototype.init = function(){
@@ -18,8 +20,8 @@ Game.prototype.init = function(){
     $('body').append(html);
     this._head.fieldHeight(FIELD_HEIGHT);
     this._head.fieldWidth(FIELD_WIDTH);
-    this.initArrowListeners();
     this._head.init();
+    this.initArrowListeners();
 };
 
 Game.prototype.fps = function(fps){
@@ -30,10 +32,15 @@ Game.prototype.fps = function(fps){
 };
 
 Game.prototype.draw = function() {
+    this._cookie.drawCookie();
     this._head.drawHead();
 };
 
 Game.prototype.update = function() {
+    if(this._head.x() == this._cookie.x() && this._head.y() == this._cookie.y()){
+        this._cookie.eat();
+        this.addCookie();
+    }
     this._head.move();
 };
 
@@ -62,10 +69,29 @@ Game.prototype.initArrowListeners = function(){
     });
 };
 
+Game.prototype.gameRun = function(){
+    return this._gameRun;
+};
+
 Game.prototype.run = function() {
     var self = this;
-    setInterval(function() {
+    var interval = setInterval(function() {
         self.update();
         self.draw();
-    }, 1000 / this.fps());
+        if(!self.gameRun()){
+            clearInterval(interval);
+        }
+    }, 1000 / self.fps());
+};
+
+Game.prototype.addCookie = function(){
+    var position = this.randomPositionForCookie();
+    this._cookie = new Cookie(position.x, position.y);
+};
+
+Game.prototype.randomPositionForCookie = function(){
+    return {
+        x: Math.floor(Math.random() * (FIELD_HEIGHT - 0 + 1)),
+        y: Math.floor(Math.random() * (FIELD_WIDTH - 0 + 1))
+    };
 };
