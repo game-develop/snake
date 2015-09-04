@@ -4,8 +4,6 @@ var RIGHT_ARROW = 39;
 var FORWARD_ARROW = 38;
 var BACKWARD_ARROW = 40;
 
-var FIELD_WIDTH = 20;
-var FIELD_HEIGHT = 18;
 var DIRECTION = {
     FORWARD: 0,
     BACKWARD: 1,
@@ -46,39 +44,37 @@ Head.prototype.direction = function(direction){
 
 Head.prototype.fieldWidth = function(fieldWidth){
     if(fieldWidth != undefined)
-        this._fieldWidth = fieldWidth;
-    else
-        return this._fieldWidth;
+        return this._fieldWidth = fieldWidth;
+    return this._fieldWidth;
 };
 
 Head.prototype.fieldHeight = function(fieldHeight){
     if(fieldHeight != undefined)
         this._fieldHeigth = fieldHeight;
-    else
-        return this._fieldHeigth;
+    return this._fieldHeigth;
 };
 
 Head.prototype.moveForward = function(){
     var position = this._position;
-    if(position.x == 0) position.x = FIELD_HEIGHT - 1;
+    if(position.x == 0) position.x = this._fieldHeigth - 1;
     else position.x = position.x - 1;
 };
 
 Head.prototype.moveBackward = function(){
     var position = this._position;
-    if(position.x == FIELD_HEIGHT - 1) position.x = 0;
+    if(position.x == this._fieldHeigth - 1) position.x = 0;
     else position.x = position.x + 1;
 };
 
 Head.prototype.moveLeft = function(){
     var position = this._position;
-    if(position.y == 0) position.y = FIELD_WIDTH - 1;
+    if(position.y == 0) position.y = this._fieldWidth - 1;
     else position.y = position.y - 1;
 };
 
 Head.prototype.moveRight = function(){
     var position = this._position;
-    if(position.y == FIELD_WIDTH - 1) position.y = 0;
+    if(position.y == this._fieldWidth - 1) position.y = 0;
     else position.y = position.y + 1;
 };
 
@@ -99,8 +95,27 @@ Head.prototype.move = function(){
     }
 };
 
-Head.prototype.drawHead = function(){
+Head.prototype.draw = function(){
     $('.player-head').remove();
     $('#'+this._position.x+'-'+this._position.y).append(player);
 };
+
+Head.prototype.x = function(x){
+    if(x != undefined) this._position.x = x;
+    else return this._position.x;
+};
+
+Head.prototype.y = function(y){
+    if(y != undefined) this._position.y = y;
+    else return this._position.y;
+};
+
+Head.prototype.direction = function(direction){
+    if(direction != undefined)
+        this._direction = direction;
+    else
+        return this._direction;
+};
+
+
 

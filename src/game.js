@@ -1,27 +1,33 @@
 var FIELD_WIDTH = 20;
 var FIELD_HEIGHT = 18;
-var Game = function(fps){
+var Game = function(fps, debugMode){
     this._fps = fps;
     this._head = new Head(parseInt(FIELD_HEIGHT/2), parseInt(FIELD_WIDTH/2));
     this._gameRun = true;
+    this._debugMode = debugMode;
+    this._fieldWidth = FIELD_WIDTH;
+    this._fieldHeigth = FIELD_HEIGHT;
     this.addCookie();
 };
 
 Game.prototype.init = function(){
     var html = '<table>';
-    for(var i = 0; i < FIELD_HEIGHT; ++i){
+    for(var i = 0; i < this._fieldHeigth; ++i){
         html += '<tr>';
-        for(var j = 0; j < FIELD_WIDTH; ++j){
+        for(var j = 0; j < this._fieldWidth; ++j){
             html += '<td id="' + i + '-' + j + '"></td>';
         }
         html += '</tr>';
     }
     html += '</table>';
     $('body').append(html);
-    this._head.fieldHeight(FIELD_HEIGHT);
-    this._head.fieldWidth(FIELD_WIDTH);
+    this._head.fieldHeight(this._fieldHeigth);
+    this._head.fieldWidth(this._fieldWidth);
     this._head.init();
     this.initArrowListeners();
+    if(this._debugMode){
+        $('table, th, td').css('border', '1px solid black');
+    }
 };
 
 Game.prototype.fps = function(fps){
@@ -54,6 +60,24 @@ Game.prototype.initArrowListeners = function(){
                 break;
         }
     });
+};
+
+Game.prototype.fieldWidth = function(fieldWidth){
+    if(fieldWidth != undefined) {
+        this._fieldWidth = fieldWidth;
+        this._head.fieldWidth(fieldWidth);
+    } else {
+        return this._fieldWidth;
+    }
+};
+
+Game.prototype.fieldHeight = function(fieldHeight){
+    if(fieldHeight != undefined) {
+        this._fieldHeigth = fieldHeight;
+        this._head.fieldHeight(fieldHeight);
+    } else {
+        return this._fieldHeigth;
+    }
 };
 
 Game.prototype.gameRun = function(){
@@ -89,14 +113,14 @@ Game.prototype.run = function() {
 };
 
 Game.prototype.addCookie = function(){
-    var position = Game.randomPositionForCookie();
+    var position = this.randomPositionForCookie();
     this._cookie = new Cookie(position.x, position.y);
 };
 
-Game.randomPositionForCookie = function(){
+Game.prototype.randomPositionForCookie = function(){
     return {
-        x: Math.floor(Math.random() * (FIELD_HEIGHT - 0 + 1)),
-        y: Math.floor(Math.random() * (FIELD_WIDTH - 0 + 1))
+        x: Math.floor(Math.random() * (this._fieldHeigth + 1)),
+        y: Math.floor(Math.random() * (this._fieldWidth + 1))
     };
 };
 

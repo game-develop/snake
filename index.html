@@ -11,7 +11,9 @@
     <link rel="stylesheet" href="css/style.css"/>
     <script>
         $(document).ready(function(){
-            var game = new Game(5, {x: 1});
+            var game = new Game(5);
+            game.fieldWidth(40);
+            game.fieldHeight(15);
             game.init();
             game.run();
             $('#stop-game').click(function(){
